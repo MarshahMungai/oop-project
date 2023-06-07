@@ -49,7 +49,7 @@ class UserManager {
 
     public function getTransactionsByUserId($userId) {
         // Retrieve transactions associated with the provided user ID
-        $sql = "SELECT * FROM transactions WHERE user_id = ?";
+        $sql = "SELECT * FROM transactions WHERE user_id = ? ORDER BY transaction_date DESC";
         $params = array($userId);
         $result = $this->db->execute($sql, $params); // Replace with your database query execution logic
 
@@ -59,6 +59,40 @@ class UserManager {
 
         return array();
     }
+
+    public function updateAccountBalance($accountNumber, $newBalance) {
+        $sql = "UPDATE users SET balance = ? WHERE account_number = ?";
+        $params = array($newBalance, $accountNumber);
+        $this->db->execute($sql, $params);
+    }
+
+    public function getAccountBalance($accountNumber) {
+        $sql = "SELECT balance FROM users WHERE account_number = ?";
+        $params = array($accountNumber);
+        $result = $this->db->execute($sql, $params); // Execute the query
+        $row = $result->fetch(); // Fetch the result row
+        return $row['balance']; // Return the balance column value
+    }
+
+    public function insertTransaction($userId, $recipientId, $amount, $description, $transactionDate) {
+        $sql = "INSERT INTO transactions (user_id, recipient_id, amount, description, transaction_date) VALUES (?, ?, ?, ?, ?)";
+        $params = array($userId, $recipientId, $amount, $description, $transactionDate);
+        $this->db->execute($sql, $params);
+    }
+
+    public function getUserIdByAccountNumber($accountNumber) {
+        $sql = "SELECT user_id FROM users WHERE account_number = ?";
+        $params = array($accountNumber);
+        $result = $this->db->execute($sql, $params);
+
+        if ($result && $result->rowCount() > 0) {
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+            return $row['user_id'];
+        }
+
+        return null;
+    }
+    
 
     // Add other methods for user management, such as getUserById(), updateProfile(), deleteProfile(), etc.
 }

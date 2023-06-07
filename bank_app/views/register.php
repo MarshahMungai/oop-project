@@ -9,7 +9,7 @@
 <?php include 'navbar.php'?>
     <!-- Registration Form -->
     <h2>User Registration</h2>
-    <form method="POST" action="../public/register.php">
+    <form method="POST" action="../public/register.php" class="input-form">
         <div>
             <input type="text" id="username" name="username" placeholder="Enter username" required>
         </div>

@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Login</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="../public/assets/css/styles.css">
 </head>
 <body>
 <?php include 'navbar.php'?>
